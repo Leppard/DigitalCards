@@ -202,8 +202,8 @@
                     </view>
                     <connections>
                         <outlet property="address" destination="6YG-XR-UOx" id="gx5-JT-WYA"/>
-                        <outlet property="email" destination="zqC-Ru-R8l" id="NfF-JR-9oE"/>
-                        <outlet property="telephone" destination="8uz-Cn-IPz" id="IMD-r0-H86"/>
+                        <outlet property="email" destination="zqC-Ru-R8l" id="aBa-Yg-KRy"/>
+                        <outlet property="telephone" destination="8uz-Cn-IPz" id="fZZ-fX-AkA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PgK-GI-3Lw" userLabel="First Responder" sceneMemberID="firstResponder"/>

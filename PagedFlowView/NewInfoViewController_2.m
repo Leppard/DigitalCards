@@ -16,20 +16,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.telephone setDelegate:self];
+    [self.email setDelegate:self];
+    [self.address setDelegate:self];
     // Do any additional setup after loading the view.
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
-}
+
 -(void)textFieldDidEndEditing:(UITextField *)textField{
-    
+
     DataModel *dataModel = [[DataModel alloc]init];
     [dataModel initializeCardsList];
     PersonalInformation *p = dataModel.cardsList[[dataModel.cardsList count]-1];
-
+    
     if ([textField.restorationIdentifier isEqual: @"Telephone"]) {
         p.telephone = (NSNumber*)self.telephone.text;
     }
@@ -41,7 +40,6 @@
     }
     
     [dataModel saveCards];
-
 
 }
 - (IBAction)backToSelect:(id)sender {

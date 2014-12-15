@@ -10,10 +10,12 @@
 #import "PersonalInformation.h"
 
 
-@interface NewInfoViewController_2 : UIViewController
+@interface NewInfoViewController_2 : UIViewController<UITextFieldDelegate>
+
 @property (weak, nonatomic) IBOutlet UITextField *telephone;
 @property (weak, nonatomic) IBOutlet UITextField *email;
 @property (weak, nonatomic) IBOutlet UITextField *address;
+
 - (IBAction)backToSelect:(id)sender;
 
 @end
