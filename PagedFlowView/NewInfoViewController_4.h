@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PersonalInformation.h"
 #import "FrontPageViewController.h"
+#import "ViewController.h"
 
 @interface NewInfoViewController_4 : UIViewController
 - (IBAction)backToSelect:(id)sender;

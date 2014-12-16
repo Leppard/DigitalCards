@@ -29,11 +29,6 @@
     return YES;
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField{
-    NSLog(@"textFieldDidBeginEditing");
-    
-}
-
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{
    

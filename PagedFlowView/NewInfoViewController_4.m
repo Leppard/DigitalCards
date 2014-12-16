@@ -34,8 +34,9 @@
 
 - (IBAction)saveNewInfo:(id)sender {
     
-    FrontPageViewController *vc = [[FrontPageViewController alloc]init];
-    [self presentViewController:vc animated:YES completion:nil];
+    UIViewController *viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
+    UINavigationController *navigationController = [[UINavigationController alloc]initWithRootViewController:viewController];
+    [self presentViewController:navigationController animated:YES completion:nil];
     
 }
 @end

@@ -56,21 +56,31 @@ int rotateTimes = 0;
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)phoneButtonPressed:(id)sender {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSInteger index ;
+    index = [userDefault integerForKey:@"IndexTapOn"];
+    
     DataModel *dataModel = [[DataModel alloc]init];
     [dataModel initializeCardsList];
-    PersonalInformation *p = dataModel.cardsList[[dataModel.cardsList count]-1];
+    PersonalInformation *p = dataModel.cardsList[index];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[[NSString alloc]initWithFormat:@"tel://%@",p.telephone]]];
 }
 - (IBAction)messageButtonPressed:(id)sender {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSInteger index = [userDefault integerForKey:@"IndexTapOn"];
+    
     DataModel *dataModel = [[DataModel alloc]init];
     [dataModel initializeCardsList];
-    PersonalInformation *p = dataModel.cardsList[[dataModel.cardsList count]-1];
+    PersonalInformation *p = dataModel.cardsList[index];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[[NSString alloc]initWithFormat:@"sms://%@",p.telephone]]];
 }
 - (IBAction)emailButtonPressed:(id)sender {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSInteger index = [userDefault integerForKey:@"IndexTapOn"];
+    
     DataModel *dataModel = [[DataModel alloc]init];
     [dataModel initializeCardsList];
-    PersonalInformation *p = dataModel.cardsList[[dataModel.cardsList count]-1];
+    PersonalInformation *p = dataModel.cardsList[index];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[[NSString alloc]initWithFormat:@"mailto://%@",p.email]]];
 }
 - (IBAction)locationButtonPressed:(id)sender {
@@ -95,19 +105,47 @@ int rotateTimes = 0;
     self.effect.light0.diffuseColor = GLKVector4Make(1.0f, 1.0f, 1.0f, 1.0f);
     
     //get image with text
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSInteger index ;
+    index = [userDefault integerForKey:@"IndexTapOn"];
+
+    
     DataModel *dataModel = [[DataModel alloc]init];
     [dataModel initializeCardsList];
-    PersonalInformation *p = dataModel.cardsList[[dataModel.cardsList count]-1];
+    PersonalInformation *p = dataModel.cardsList[index];
 
     UIImage *img = p.photo;
+    
+    CGSize size = CGSizeMake(581, 775);
+    UIImage *image = [self OriginImage:img scaleToSize:size];
+    UIImageView *tmpImgView=[[UIImageView alloc] initWithImage:image];
+    UIImage *theImage = [self captureView:tmpImgView frame:CGRectMake(0, 0, 581, 581)];// 切割尺寸
+    
+    
+    
+    NSArray *imgArray = [[NSArray alloc] initWithObjects:
+                         theImage,
+                         [UIImage imageNamed:@"3.png"],
+                         [UIImage imageNamed:@"close.png"],
+                         nil];
+    
+    NSArray *imgPointArray = [[NSArray alloc] initWithObjects:
+                              @"31", @"106",
+                              @"31", @"609",
+                              @"546", @"122",
+                              nil];
+    
+    
+    UIImage *newImage = [self mergedImageOnMainImage:[UIImage imageNamed:@"1.png"] WithImageArray:imgArray AndImagePointArray:imgPointArray];
+
     
     NSString *name = p.name;
     NSString *company = p.company;
     NSString *position = p.position;
     
-    img = [self addFrontText:img name:name company:company position:position];
+    newImage = [self addFrontText:newImage name:name company:company position:position];
     
-    NSData *imgData = UIImageJPEGRepresentation(img, 1.0);
+    NSData *imgData = UIImageJPEGRepresentation(newImage, 1.0);
     
     //vertex data
     GLuint buffer;
@@ -153,19 +191,46 @@ int rotateTimes = 0;
         if(frontAndBack == 90) {
             //vertex data
             //get image with text
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            NSInteger index ;
+            index = [userDefault integerForKey:@"IndexTapOn"];
+            
             
             DataModel *dataModel = [[DataModel alloc]init];
             [dataModel initializeCardsList];
-            PersonalInformation *p = dataModel.cardsList[[dataModel.cardsList count]-1];
+            PersonalInformation *p = dataModel.cardsList[index];
             
             UIImage *img = p.photo;
+            
+            CGSize size = CGSizeMake(581, 775);
+            UIImage *image = [self OriginImage:img scaleToSize:size];
+            UIImageView *tmpImgView=[[UIImageView alloc] initWithImage:image];
+            UIImage *theImage = [self captureView:tmpImgView frame:CGRectMake(0, 0, 581, 581)];// 切割尺寸
+            
+            
+            
+            NSArray *imgArray = [[NSArray alloc] initWithObjects:
+                                 theImage,
+                                 [UIImage imageNamed:@"3.png"],
+                                 [UIImage imageNamed:@"close.png"],
+                                 nil];
+            
+            NSArray *imgPointArray = [[NSArray alloc] initWithObjects:
+                                      @"31", @"106",
+                                      @"31", @"609",
+                                      @"546", @"122",
+                                      nil];
+            
+            
+            UIImage *newImage = [self mergedImageOnMainImage:[UIImage imageNamed:@"1.png"] WithImageArray:imgArray AndImagePointArray:imgPointArray];
+
             
             NSString *name = p.name;
             NSString *company = p.company;
             NSString *position = p.position;
-            img = [self addFrontText:img name:name company:company position:position];
+            newImage = [self addFrontText:newImage name:name company:company position:position];
             
-            NSData *imgData = UIImageJPEGRepresentation(img, 1.0);
+            NSData *imgData = UIImageJPEGRepresentation(newImage, 1.0);
             
             //vertex data
             GLuint buffer;
@@ -199,10 +264,13 @@ int rotateTimes = 0;
     if (rotateTimes%2 == 1) {
         if(frontAndBack == 90) {
             //vertex data
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            NSInteger index ;
+            index = [userDefault integerForKey:@"IndexTapOn"];
             
             DataModel *dataModel = [[DataModel alloc]init];
             [dataModel initializeCardsList];
-            PersonalInformation *p = dataModel.cardsList[[dataModel.cardsList count]-1];
+            PersonalInformation *p = dataModel.cardsList[index];
             UIImage *img = [UIImage imageNamed:@"Back.png"];
             
             NSString *phone = [[NSString alloc]initWithFormat:@"%@",p.telephone];
@@ -353,5 +421,55 @@ int rotateTimes = 0;
 //    self.frontPicture.layer.cornerRadius = self.frontPicture.frame.size.height/25;
 //    self.frontPicture.clipsToBounds = YES;
 //}
+
+- (UIImage *) mergedImageOnMainImage:(UIImage *)mainImg WithImageArray:(NSArray *)imgArray AndImagePointArray:(NSArray *)imgPointArray
+{
+    
+    UIGraphicsBeginImageContext(mainImg.size);
+    
+    [mainImg drawInRect:CGRectMake(0, 0, mainImg.size.width, mainImg.size.height)];
+    int i = 0;
+    for (UIImage *img in imgArray) {
+        [img drawInRect:CGRectMake([[imgPointArray objectAtIndex:i] floatValue],
+                                   [[imgPointArray objectAtIndex:i+1] floatValue],
+                                   img.size.width,
+                                   img.size.height)];
+        
+        i+=2;
+    }
+    
+    CGImageRef NewMergeImg = CGImageCreateWithImageInRect(UIGraphicsGetImageFromCurrentImageContext().CGImage,
+                                                          CGRectMake(0, 0, mainImg.size.width, mainImg.size.height));
+    
+    UIGraphicsEndImageContext();
+    UIImage * newImg = [UIImage imageWithCGImage:NewMergeImg];
+    return newImg;
+}
+
+- (UIImage*)captureView:(UIView *)theView frame:(CGRect)frame { //截图
+    UIGraphicsBeginImageContext(theView.frame.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [theView.layer renderInContext:context];
+    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    CGImageRef ref = CGImageCreateWithImageInRect(img.CGImage, frame);
+    UIImage *i = [UIImage imageWithCGImage:ref];
+    CGImageRelease(ref);
+    return i;
+}
+
+-(UIImage*) OriginImage:(UIImage *)image scaleToSize:(CGSize)size
+{
+    UIGraphicsBeginImageContext(size);  //size 为CGSize类型，即你所需要的图片尺寸
+    
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    
+    UIImage* scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return scaledImage;   //返回的就是已经改变的图片
+}
+
 
 @end

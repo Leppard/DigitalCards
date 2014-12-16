@@ -13,7 +13,6 @@
 
 
 @interface ViewController : UIViewController<PagedFlowViewDelegate,PagedFlowViewDataSource>{
-    NSArray *imageArray;
 }
 
 @property (nonatomic, strong) IBOutlet PagedFlowView *hFlowView;
@@ -22,7 +21,10 @@
 //
 //- (IBAction)pageControlValueDidChange:(id)sender;
 //- (IBAction)showFrontPage:(id)sender;
+@property (nonatomic, strong) NSMutableArray *imageListArray;
+
 - (IBAction)addNewCard:(id)sender;
 
+- (IBAction)cleanAllData:(id)sender;
 
 @end

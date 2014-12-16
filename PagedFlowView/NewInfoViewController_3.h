@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PersonalInformation.h"
 
-@interface NewInfoViewController_3 : UIViewController<UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
+@interface NewInfoViewController_3 : UIViewController<UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate>
 - (IBAction)backToSelect:(id)sender;
 - (IBAction)choosePhoto:(id)sender;
 @property (weak, nonatomic) IBOutlet UIImageView *addPhoto;

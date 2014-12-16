@@ -21,7 +21,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    imageArray = [[NSArray alloc] initWithObjects:@"8",@"9",@"2",@"3",@"4",@"5",@"6",@"7",nil];
     
     hFlowView.delegate = self;
     hFlowView.dataSource = self;
@@ -67,12 +66,15 @@
 }
 
 - (void)flowView:(PagedFlowView *)flowView didScrollToPageAtIndex:(NSInteger)index {
-    NSLog(@"Scrolled to page # %d", index);
+//    NSLog(@"Scrolled to page # %d", index);
 }
 
 - (void)flowView:(PagedFlowView *)flowView didTapPageAtIndex:(NSInteger)index{
 
     //    NSLog(@"Tapped on page # %d", index);
+    
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setInteger:index-1 forKey:@"IndexTapOn"];
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
@@ -89,19 +91,40 @@
 #pragma mark PagedFlowView Datasource
 //返回显示View的个数
 - (NSInteger)numberOfPagesInFlowView:(PagedFlowView *)flowView{
-    return [imageArray count];
+    DataModel *dataModel = [[DataModel alloc]init];
+    [dataModel initializeCardsList];
+
+    return [dataModel.cardsList count]+1;
+
 
 }
 
 //返回给某列使用的View
 - (UIView *)flowView:(PagedFlowView *)flowView cellForPageAtIndex:(NSInteger)index{
     UIImageView *imageView = (UIImageView *)[flowView dequeueReusableCell];
-    if (!imageView) {
-        imageView = [[UIImageView alloc] init];
-        imageView.layer.cornerRadius = 6;
-        imageView.layer.masksToBounds = YES;
+    if(index == 0){
+        if (!imageView) {
+            imageView = [[UIImageView alloc] init];
+            imageView.layer.cornerRadius = 6;
+            imageView.layer.masksToBounds = YES;
+        }
+
+        imageView.image = [UIImage imageNamed:@"HomeSelectItem"];
+        return imageView;
     }
-    imageView.image = [UIImage imageNamed:@"HomeSelectItem"];
+    
+    
+    DataModel *dataModel = [[DataModel alloc]init];
+    [dataModel initializeCardsList];
+
+    PersonalInformation *p = dataModel.cardsList[index-1];
+        if (!imageView) {
+            imageView = [[UIImageView alloc] init];
+            imageView.layer.cornerRadius = 6;
+            imageView.layer.masksToBounds = YES;
+        }
+        imageView.image = p.photo;
+
     return imageView;
 }
 
@@ -112,6 +135,19 @@
     
 
     
+}
+
+- (IBAction)cleanAllData:(id)sender {
+    
+    DataModel *dataModel = [[DataModel alloc]init];
+    [dataModel initializeCardsList];
+    
+    [dataModel.cardsList removeAllObjects];
+    [dataModel saveCards];
+    UIViewController *viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
+    [self.navigationController popViewControllerAnimated:NO];
+    [self.navigationController pushViewController:viewController animated:YES];
+
 }
 
 
