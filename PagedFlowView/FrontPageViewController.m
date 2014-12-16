@@ -55,6 +55,26 @@ int rotateTimes = 0;
     
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+
+- (IBAction)deleteCard:(id)sender {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSInteger index ;
+    index = [userDefault integerForKey:@"IndexTapOn"];
+    
+    
+    DataModel *dataModel = [[DataModel alloc]init];
+    [dataModel initializeCardsList];
+    [dataModel.cardsList removeObjectAtIndex:index];
+    [dataModel saveCards];
+    UIViewController *viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
+    UINavigationController *navigationController = [[UINavigationController alloc]initWithRootViewController:viewController];
+    [self presentViewController:navigationController animated:YES completion:nil];
+
+    
+}
+
+
 - (IBAction)phoneButtonPressed:(id)sender {
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     NSInteger index ;

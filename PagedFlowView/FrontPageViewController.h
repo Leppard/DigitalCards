@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <GLKit/GLKit.h>
 #import "DataModel.h"
+#import "ViewController.h"
 
 @interface FrontPageViewController : GLKViewController
 - (IBAction)backToCardSelect:(id)sender;
+- (IBAction)deleteCard:(id)sender;
 
 @end
